@@ -3,23 +3,13 @@ import { galleryItems } from "./gallery-items.js";
 const galleryList = document.querySelector(".gallery");
 
 function createGalleryItem(item) {
-  const galleryItem = document.createElement("li");
-  galleryItem.classList.add("gallery__item");
-
-  const link = document.createElement("a");
-  link.classList.add("gallery__link");
-  link.href = item.original;
-
-  const image = document.createElement("img");
-  image.classList.add("gallery__image");
-  image.src = item.preview;
-  image.alt = item.description;
-  image.dataset.source = item.original;
-
-  link.appendChild(image);
-  galleryItem.appendChild(link);
-
-  return galleryItem;
+  return `
+    <li class="gallery__item">
+      <a class="gallery__link" href="${item.original}">
+        <img class="gallery__image" src="${item.preview}" alt="${item.description}" data-source="${item.original}">
+      </a>
+    </li>
+  `;
 }
 
 function handleGalleryClick(event) {
@@ -43,9 +33,7 @@ function openModal(url) {
   modal.show();
 }
 
-galleryItems.forEach(function (item) {
-  const galleryItem = createGalleryItem(item);
-  galleryList.appendChild(galleryItem);
-});
+const galleryMarkup = galleryItems.map(createGalleryItem).join("");
+galleryList.innerHTML = galleryMarkup;
 
 galleryList.addEventListener("click", handleGalleryClick);

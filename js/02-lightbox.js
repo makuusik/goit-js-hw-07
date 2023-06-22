@@ -1,29 +1,19 @@
 import { galleryItems } from "./gallery-items.js";
+
 const galleryList = document.querySelector(".gallery");
 
 function createGalleryItem(item) {
-  const galleryItem = document.createElement("li");
-  galleryItem.classList.add("gallery__item");
-
-  const link = document.createElement("a");
-  link.classList.add("gallery__link");
-  link.href = item.original;
-
-  const image = document.createElement("img");
-  image.classList.add("gallery__image");
-  image.src = item.preview;
-  image.alt = item.description;
-
-  link.appendChild(image);
-  galleryItem.appendChild(link);
-
-  return galleryItem;
+  return `
+    <li class="gallery__item">
+      <a class="gallery__link" href="${item.original}">
+        <img class="gallery__image" src="${item.preview}" alt="${item.description}">
+      </a>
+    </li>
+  `;
 }
 
-galleryItems.forEach((item) => {
-  const galleryItem = createGalleryItem(item);
-  galleryList.appendChild(galleryItem);
-});
+const galleryMarkup = galleryItems.map(createGalleryItem).join("");
+galleryList.innerHTML = galleryMarkup;
 
 const lightbox = new SimpleLightbox(".gallery a", {
   captionsData: "alt",
@@ -39,7 +29,7 @@ const styles = `
     right: 10px;
   }
   .slbContentOuter .slbOverlay {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 `;
 
